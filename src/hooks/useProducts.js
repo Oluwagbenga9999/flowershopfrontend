@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 
+
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 export function useProducts(query = "") {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -9,7 +12,7 @@ export function useProducts(query = "") {
     useEffect(() => {
         let cancelled = false;
 
-        fetch(`/api/products${query}`)
+        fetch(`${API}/products${query}`)
             .then((res) => {
                 if (!res.ok) throw new Error("Failed to fetch products");
                 return res.json();
