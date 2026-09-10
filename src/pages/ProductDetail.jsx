@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -13,7 +15,7 @@ export default function ProductDetail() {
 
    
 
-    fetch(`/api/products/${id}`)
+    fetch(`${API}/products/${id}`)
       .then(async (res) => {
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
