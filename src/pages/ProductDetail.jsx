@@ -9,6 +9,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(0);
   const { addToCart } = useCart();
   useEffect(() => {
     if (!id) return;
@@ -23,7 +24,10 @@ export default function ProductDetail() {
         }
         return res.json();
       })
-      .then((data) => setProduct(data))
+      .then((data) => {
+        setProduct(data);
+        setSelectedImage(0); // reset to first image whenever a new product loads
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, [id]);
@@ -63,16 +67,34 @@ export default function ProductDetail() {
       </Link>
 
       <div className="grid md:grid-cols-2 gap-10">
-        <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden">
-          {product.image ? (
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
-              No image available
+        <div>
+          <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden">
+            {product.images?.length > 0 ? (
+              <img
+                src={product.images[selectedImage] || product.images[0]}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-gray-400">
+                No image available
+              </div>
+            )}
+          </div>
+
+          {product.images?.length > 1 && (
+            <div className="flex gap-2 mt-3">
+              {product.images.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelectedImage(i)}
+                  className={`w-16 h-16 rounded-lg overflow-hidden border-2 ${
+                    selectedImage === i ? "border-green-600" : "border-transparent"
+                  }`}
+                >
+                  <img src={img} alt="" className="w-full h-full object-cover" />
+                </button>
+              ))}
             </div>
           )}
         </div>

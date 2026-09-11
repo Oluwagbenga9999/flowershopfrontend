@@ -43,9 +43,9 @@ export default function ProductGrid() {
           >
             {/* Image */}
             <div className="aspect-square bg-gray-100 overflow-hidden">
-              {product.image ? (
+              {product.images?.[0] ? (
                 <img
-                  src={product.image}
+                  src={product.images[0]}
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
