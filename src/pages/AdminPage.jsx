@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios"; // or your preferred fetch method
 
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const AdminPage = () => {
   const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({
@@ -16,7 +18,7 @@ const AdminPage = () => {
   // Load all products
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("/api/products"); // adjust endpoint
+      const res = await axios.get("${API}/products"); // adjust endpoint
       setProducts(res.data);
     } catch (err) {
       console.error(err);
@@ -38,10 +40,10 @@ const AdminPage = () => {
     try {
       if (editingId) {
         // Update
-        await axios.put(`/api/products/${editingId}`, formData);
+        await axios.put(`${API}/products${editingId}`, formData);
       } else {
         // Create
-        await axios.post("/api/products", formData);
+        await axios.post("${API}/products", formData);
       }
       setFormData({ name: "", price: "", description: "", image: "", category: "" });
       setEditingId(null);
@@ -69,7 +71,7 @@ const AdminPage = () => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
 
     try {
-      await axios.delete(`/api/products/${id}`);
+      await axios.delete(`${API}/products/${id}`);
       fetchProducts();
     } catch (err) {
       console.error(err);
