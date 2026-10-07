@@ -13,7 +13,7 @@ export default function CheckoutPage() {
   const [form, setForm] = useState({
     fullName: user?.name || "",
     email: user?.email || "",
-    steet: "",
+    street: "",
     city: "",
     postalCode: "",
     country: "",
