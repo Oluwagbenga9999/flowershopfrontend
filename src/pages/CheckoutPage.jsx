@@ -39,6 +39,16 @@ export default function CheckoutPage() {
         quantity: item.quantity,
       }));
 
+      const shippingAddress = {
+        fullName: form.fullName,
+        email: form.email,
+        street: form.street,
+        city: form.city,
+        postalCode: form.postalCode,
+        country: form.country,
+        phone: form.phone,
+      };
+
       const res = await fetch(`${API}/orders`, {
         method: "POST",
         headers: {
@@ -47,7 +57,7 @@ export default function CheckoutPage() {
         },
         body: JSON.stringify({
           items: orderItems,
-          shippingAddress: form,
+          shippingAddress,
         }),
       });
 
@@ -135,7 +145,7 @@ export default function CheckoutPage() {
                 </label>
                 <input
                   type="text"
-                  name="steet"
+                  name="street"
                   required
                   value={form.street}
                   onChange={handleChange}
@@ -173,18 +183,33 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  name="country"
-                  required
-                  value={form.country}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    name="country"
+                    required
+                    value={form.country}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    value={form.phone}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
               </div>
 
               <button
